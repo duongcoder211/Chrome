@@ -2639,6 +2639,7 @@ let nextSong = function() {
         loadSong(songList[songId]);
         isPlaySong = true;
         currentSong.load();
+        currentSong.currentTime = 0;
         playSong();
     }
 }
@@ -2651,6 +2652,7 @@ let backSong = function() {
         loadSong(songList[songId]);
         isPlaySong = true;
         currentSong.load();
+        currentSong.currentTime = 0;
         playSong();
     }
 }
@@ -2663,6 +2665,7 @@ let shuffleSong = function() {
     loadSong(songList[newSongId]);
     isPlaySong = true;
     currentSong.load();
+    currentSong.currentTime = 0;
     playSong();
 }
 
