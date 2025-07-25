@@ -2553,7 +2553,7 @@ let loadSong = function(songInfor) {
         </div>
         `
     displayFullContent();
-    currentSong = songDetailElm.querySelector(".current-song");
+    currentSong = songDetailElm.querySelector("audio");
     currentSong.setAttribute("preload", "metadata");
     currentSong.addEventListener('loadedmetadata', ()=> {
         songDuration = Number(currentSong.duration.toFixed());
@@ -2609,14 +2609,7 @@ let rotateThumnail = function() {
 
 let playSong = function () {  
     isPlaySong = true;
-    let promise = new Promise((resolve, reject) => {
-      resolve();
-    })
-    promise
-      .then(() => {
-        currentSong.play();
-      })
-      .catch((err) => console.log("Error"))
+    currentSong.play();
     playSongBtns.forEach((btn) => {
         btn.querySelector("img").src = "./assets/white-icon/pause-svgrepo-com.svg";
     })
