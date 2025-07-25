@@ -2638,6 +2638,7 @@ let nextSong = function() {
         songId < songListLength - 1? songId += 1 : songId = 0;
         loadSong(songList[songId]);
         isPlaySong = true;
+        currentSong.load();
         playSong();
     }
 }
@@ -2649,6 +2650,7 @@ let backSong = function() {
         songId < 1? songId = songListLength - 1 : songId -= 1;
         loadSong(songList[songId]);
         isPlaySong = true;
+        currentSong.load();
         playSong();
     }
 }
@@ -2660,6 +2662,7 @@ let shuffleSong = function() {
     } while (newSongId == songId);       
     loadSong(songList[newSongId]);
     isPlaySong = true;
+    currentSong.load();
     playSong();
 }
 
