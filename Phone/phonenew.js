@@ -2556,6 +2556,7 @@ let loadSong = function(songInfor) {
     currentSong = songDetailElm.querySelector("audio");
     currentSong.setAttribute("preload", "metadata");
     currentSong.addEventListener('loadedmetadata', ()=> {
+        if(isPlaySong) {playSong();};
         songDuration = Number(currentSong.duration.toFixed());
         makeSongTime(songDuration);
     })
@@ -2638,7 +2639,6 @@ let nextSong = function() {
         songId < songListLength - 1? songId += 1 : songId = 0;
         loadSong(songList[songId]);
         isPlaySong = true;
-        makeCurrentTime(0);
         playSong();
     }
 }
@@ -2650,7 +2650,6 @@ let backSong = function() {
         songId < 1? songId = songListLength - 1 : songId -= 1;
         loadSong(songList[songId]);
         isPlaySong = true;
-        makeCurrentTime(0);
         playSong();
     }
 }
@@ -2662,7 +2661,6 @@ let shuffleSong = function() {
     } while (newSongId == songId);       
     loadSong(songList[newSongId]);
     isPlaySong = true;
-    makeCurrentTime(0);
     playSong();
 }
 
