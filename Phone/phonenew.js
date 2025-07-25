@@ -2593,6 +2593,7 @@ let makeSongTime = function (songDuration) {
         makeProgress(currenttime,songDuration);
         if(currentSong.ended == true) {
             if(isShuffleSong) {shuffleSong();}
+            else if (typeLoop == 0 && isShuffleSong == false && songList[songList.length - 1].songid == songId) {pauseSong();}
             else if(typeLoop == 0 && isShuffleSong == false) {nextSong();}
             else if(typeLoop == 1) {loadSong(songList[songId]);playSong();}
             else if(typeLoop == 2) {nextSong();};         
@@ -2608,7 +2609,14 @@ let rotateThumnail = function() {
 
 let playSong = function () {  
     isPlaySong = true;
-    currentSong.play();
+    let promise = new Promise((resolve, reject) => {
+      resolve();
+    })
+    promise
+      .then(() => {
+        currentSong.play();
+      })
+      .catch((err) => console.log("Error"))
     playSongBtns.forEach((btn) => {
         btn.querySelector("img").src = "./assets/white-icon/pause-svgrepo-com.svg";
     })
