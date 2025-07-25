@@ -397,7 +397,6 @@ h1 {
 }
 
 .main-thumbnail {
-    display: block;
     width: 200px;
     height: 200px;
     border-radius: 100%;
@@ -470,6 +469,7 @@ h1 {
     overflow: hidden;
     text-overflow: ellipsis;
     text-wrap: nowrap;
+    margin-top: 10px;
 }
 
 .author {
