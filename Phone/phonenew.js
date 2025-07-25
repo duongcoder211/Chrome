@@ -2593,9 +2593,9 @@ let makeSongTime = function (songDuration) {
         makeProgress(currenttime,songDuration);
         if(currentSong.ended == true) {
             if(isShuffleSong) {shuffleSong();}
-            else if(typeLoop == 0 && isShuffleSong == false) {pauseSong();}
+            else if(typeLoop == 0 && isShuffleSong == false) {nextSong();}
             else if(typeLoop == 1) {loadSong(songList[songId]);playSong();}
-            else if(typeLoop == 2) {nextSong();};           
+            else if(typeLoop == 2) {nextSong();};         
             }
     }
 }
