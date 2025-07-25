@@ -2625,6 +2625,7 @@ progressElm.addEventListener('click', (e) => {
 });
 
 let pauseSong = function() {
+    isPlaySong = false;
     currentSong.pause();
     playSongBtns.forEach(btn => {
         btn.querySelector("img").src = "./assets/white-icon/play-svgrepo-com.svg";
