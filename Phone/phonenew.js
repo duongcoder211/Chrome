@@ -2375,12 +2375,14 @@ let hideScreen = function () {
     if(isPhoneOn) {
         screen.style.visibility = "visible";
         dynamicIsland.style.backgroundColor = "#000";
+        homeBar.addEventListener("click", homeBarClick);
         if(isOpenApp) { runMusicApp() }
     }
     else {
         screen.style.visibility = "hidden";
         dynamicIsland.style.backgroundColor = "#8f8e8e";
         hideMusicApp();
+        homeBar.removeEventListener("click", homeBarClick);
     }
 }
 
@@ -2476,11 +2478,13 @@ let homeBarDisable = function () {
     homeBar.style.transform = "translateY(0)";
 }
 
-homeBar.addEventListener("click", () => {
+let homeBarClick = function () {
     clearTimeout(homeBarDisableId);
     homeBarActive();
-    homeBarDisableId = setTimeout(() => { homeBarDisable(); }, 500)
-})
+    homeBarDisableId = setTimeout(() => { homeBarDisable(); }, 500);
+}
+
+homeBar.addEventListener("click", homeBarClick);
 
 // Volume
 muteBtn.onclick = () => {
