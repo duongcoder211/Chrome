@@ -319,8 +319,9 @@ h1 {
     font-size: 13px;
     text-align: center;
     color: #fff;
-    overflow: hidden;
     text-wrap: nowrap;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .control-bar_dynamic-island {
