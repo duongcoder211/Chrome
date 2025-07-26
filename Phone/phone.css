@@ -446,6 +446,7 @@ h1 {
     position: absolute;
     top: 66%;
     width: 100%;
+    height: fit-content;
     justify-content: space-around;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
@@ -457,12 +458,12 @@ h1 {
 .progress-bar {
     font-size: 16px;
     width: 66%;
-    height: 8px;
-    margin-top: 2px;
+    height: 11.2px;
 }
 .song-name {
     font-size: 20px;
-    width: 100%;
+    width: 84%;
+    margin: 0 auto;
     height: 30px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -470,9 +471,10 @@ h1 {
 }
 
 .author {
-    margin-top: 6px;
     height: 24px;
     font-size: 12px;
+    width: 84%;
+    margin: 6px auto 12px;
     overflow: hidden;
     text-wrap: nowrap;
     display: flex;
