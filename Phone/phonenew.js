@@ -22,6 +22,7 @@ let isPhoneOn = true;
 let hideVolumeBarId;
 let dynamicIslandOffId;
 let homeBarDisableId;
+let autoOffScreenId;
 
 // App music
 let songList = [
@@ -2406,6 +2407,13 @@ setInterval(() => {makeTimeToday();},500)
 // <-------------------Phone-------------------->
 // Power
 powerBtn.addEventListener('click', () => {hideScreen()});
+
+// Auto off screen
+autoOffScreenId = setTimeout(hideScreen, 30000);
+screen.onclick=(()=> {
+  clearTimeout(autoOffScreenId);
+  autoOffScreenId = setTimeout(hideScreen, 30000);
+});
 
 // Dinamic island
 let dynamicIslandOn = function () {
