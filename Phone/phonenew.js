@@ -19,6 +19,9 @@ let batteryProgressElm = document.querySelector("#battery-progress");
 let homeBar = document.querySelector(".homeBar");
 let wrapped = document.querySelector(".wrapped");
 let isPhoneOn = true;
+let hideVolumeBarId;
+let dynamicIslandOffId;
+let homeBarDisableId;
 
 // App music
 let songList = [
@@ -2438,8 +2441,9 @@ let dynamicIslandOff = function () {
 }
 
 dynamicIsland.addEventListener("click", () => {
+    clearTimeout(dynamicIslandOffId);
     dynamicIslandOn();
-    setTimeout(() => { dynamicIslandOff(); },5000);
+    dynamicIslandOffId = setTimeout(() => { dynamicIslandOff(); },5000);
 })
 
 // Battery
@@ -2473,8 +2477,9 @@ let homeBarDisable = function () {
 }
 
 homeBar.addEventListener("click", () => {
+    clearTimeout(homeBarDisableId);
     homeBarActive();
-    setTimeout(() => { homeBarDisable(); }, 500)
+    homeBarDisableId = setTimeout(() => { homeBarDisable(); }, 500)
 })
 
 // Volume
@@ -2508,25 +2513,27 @@ let hideVolumeBarElm = function() {
 }
 
 increaseVolumeBtn.onclick = () => {
+    clearTimeout(hideVolumeBarId)
     displayVolumeBarElm();
     if(currentVolume <= 0.9) {
         currentVolume = currentVolume + 0.1;
         currentSong.volume = currentVolume;
     };
     volumeProgressElm.style.height = `${currentVolume * 100}%`;
-    setTimeout(() => {
+    hideVolumeBarId = setTimeout(() => {
         hideVolumeBarElm()
     },5000)
 };
 
 decreaseVolumeBtn.onclick = () => {
+    clearTimeout(hideVolumeBarId)
     displayVolumeBarElm();
     if(currentVolume >= 0.1) {
         currentVolume = currentVolume - 0.1;
         currentSong.volume = currentVolume;
     };
     volumeProgressElm.style.height = `${currentVolume * 100}%`;
-    setTimeout(() => {
+    hideVolumeBarId = setTimeout(() => {
         hideVolumeBarElm();
     },5000)
 };
