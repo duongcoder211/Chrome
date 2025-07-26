@@ -453,6 +453,7 @@ h1 {
 
 .song-current-time,.song-total-time {
     width: 30px;
+    text-align: center;
 }
 
 .progress-bar {
