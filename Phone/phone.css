@@ -465,9 +465,10 @@ h1 {
     width: 84%;
     margin: 0 auto;
     height: 30px;
+    text-wrap: nowrap;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    text-wrap: nowrap;
 }
 
 .author {
@@ -475,8 +476,10 @@ h1 {
     font-size: 12px;
     width: 84%;
     margin: 6px auto 12px;
-    overflow: hidden;
     text-wrap: nowrap;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     display: flex;
     justify-content: center;
     align-items: center;
