@@ -2377,12 +2377,15 @@ let hideScreen = function () {
         screen.style.visibility = "visible";
         dynamicIsland.style.backgroundColor = "#000";
         homeBar.addEventListener("click", homeBarClick);
-        if(isOpenApp) { runMusicApp() }
+        clearTimeout(autoOffScreenId);
+        autoOffScreenId = setTimeout(hideScreen, 30000);
+        if(isOpenApp) { runMusicApp() };
     }
     else {
         screen.style.visibility = "hidden";
         dynamicIsland.style.backgroundColor = "#8f8e8e";
         hideMusicApp();
+        clearTimeout(autoOffScreenId);
         homeBar.removeEventListener("click", homeBarClick);
     }
 }
