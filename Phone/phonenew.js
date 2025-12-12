@@ -19,6 +19,10 @@ let batteryProgressElm = document.querySelector("#battery-progress");
 let homeBar = document.querySelector(".homeBar");
 let wrapped = document.querySelector(".wrapped");
 let isPhoneOn = true;
+let hideVolumeBarId;
+let dynamicIslandOffId;
+let homeBarDisableId;
+let autoOffScreenId;
 
 // App music
 let songList = [
@@ -2372,12 +2376,17 @@ let hideScreen = function () {
     if(isPhoneOn) {
         screen.style.visibility = "visible";
         dynamicIsland.style.backgroundColor = "#000";
-        if(isOpenApp) { runMusicApp() }
+        homeBar.addEventListener("click", homeBarClick);
+        clearTimeout(autoOffScreenId);
+        autoOffScreenId = setTimeout(hideScreen, 30000);
+        if(isOpenApp) { runMusicApp() };
     }
     else {
         screen.style.visibility = "hidden";
         dynamicIsland.style.backgroundColor = "#8f8e8e";
         hideMusicApp();
+        clearTimeout(autoOffScreenId);
+        homeBar.removeEventListener("click", homeBarClick);
     }
 }
 
@@ -2386,7 +2395,7 @@ let makeTimeToday = function () {
     let day = date.getDay() + 1;
     let hour = date.getHours();
     let minute = date.getMinutes();
-    day == 8 ? day = "Chủ nhật" : day = 'Thứ ' + day;
+    day == 1 ? day = "Chủ nhật" : day = 'Thứ ' + day;
     hour.toString().length < 2 ? hour = "0" + hour : hour = hour;
     minute.toString().length < 2 ? minute = "0" + minute : minute = minute;
     timeTodayElm.innerHTML = `
@@ -2401,6 +2410,13 @@ setInterval(() => {makeTimeToday();},500)
 // <-------------------Phone-------------------->
 // Power
 powerBtn.addEventListener('click', () => {hideScreen()});
+
+// Auto off screen
+autoOffScreenId = setTimeout(hideScreen, 30000);
+screen.onclick=(()=> {
+  clearTimeout(autoOffScreenId);
+  autoOffScreenId = setTimeout(hideScreen, 30000);
+});
 
 // Dinamic island
 let dynamicIslandOn = function () {
@@ -2438,8 +2454,9 @@ let dynamicIslandOff = function () {
 }
 
 dynamicIsland.addEventListener("click", () => {
+    clearTimeout(dynamicIslandOffId);
     dynamicIslandOn();
-    setTimeout(() => { dynamicIslandOff(); },5000);
+    dynamicIslandOffId = setTimeout(() => { dynamicIslandOff(); },5000);
 })
 
 // Battery
@@ -2472,10 +2489,13 @@ let homeBarDisable = function () {
     homeBar.style.transform = "translateY(0)";
 }
 
-homeBar.addEventListener("click", () => {
+let homeBarClick = function () {
+    clearTimeout(homeBarDisableId);
     homeBarActive();
-    setTimeout(() => { homeBarDisable(); }, 500)
-})
+    homeBarDisableId = setTimeout(() => { homeBarDisable(); }, 500);
+}
+
+homeBar.addEventListener("click", homeBarClick);
 
 // Volume
 muteBtn.onclick = () => {
@@ -2508,25 +2528,27 @@ let hideVolumeBarElm = function() {
 }
 
 increaseVolumeBtn.onclick = () => {
+    clearTimeout(hideVolumeBarId)
     displayVolumeBarElm();
     if(currentVolume <= 0.9) {
         currentVolume = currentVolume + 0.1;
         currentSong.volume = currentVolume;
     };
     volumeProgressElm.style.height = `${currentVolume * 100}%`;
-    setTimeout(() => {
+    hideVolumeBarId = setTimeout(() => {
         hideVolumeBarElm()
     },5000)
 };
 
 decreaseVolumeBtn.onclick = () => {
+    clearTimeout(hideVolumeBarId)
     displayVolumeBarElm();
     if(currentVolume >= 0.1) {
         currentVolume = currentVolume - 0.1;
         currentSong.volume = currentVolume;
     };
     volumeProgressElm.style.height = `${currentVolume * 100}%`;
-    setTimeout(() => {
+    hideVolumeBarId = setTimeout(() => {
         hideVolumeBarElm();
     },5000)
 };
@@ -2553,9 +2575,10 @@ let loadSong = function(songInfor) {
         </div>
         `
     displayFullContent();
-    currentSong = songDetailElm.querySelector(".current-song");
+    currentSong = songDetailElm.querySelector("audio");
     currentSong.setAttribute("preload", "metadata");
     currentSong.addEventListener('loadedmetadata', ()=> {
+        if(isPlaySong) {playSong();};
         songDuration = Number(currentSong.duration.toFixed());
         makeSongTime(songDuration);
     })
@@ -2591,11 +2614,12 @@ let makeSongTime = function (songDuration) {
         currenttime = currentSong.currentTime;
         makeCurrentTime(currenttime);
         makeProgress(currenttime,songDuration);
-        if(currentSong.ended) {
+        if(currentSong.ended == true) {
             if(isShuffleSong) {shuffleSong();}
+            else if (typeLoop == 0 && isShuffleSong == false && songList[songList.length - 1].songid == songId) {pauseSong();}
             else if(typeLoop == 0 && isShuffleSong == false) {nextSong();}
-            else if(typeLoop == 1) {loadSong(songList[songId]);playSong()}
-            else if(typeLoop == 2) {nextSong();};           
+            else if(typeLoop == 1) {loadSong(songList[songId]);playSong();}
+            else if(typeLoop == 2) {nextSong();};         
             }
     }
 }
@@ -2623,6 +2647,7 @@ progressElm.addEventListener('click', (e) => {
 });
 
 let pauseSong = function() {
+    isPlaySong = false;
     currentSong.pause();
     playSongBtns.forEach(btn => {
         btn.querySelector("img").src = "./assets/white-icon/play-svgrepo-com.svg";
